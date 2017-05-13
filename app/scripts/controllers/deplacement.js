@@ -58,7 +58,7 @@ angular.module('spiderApp')
           "height" : "100px"
         };
       }
-      socket.emit('message', ($scope.positionX-200)+','+(-($scope.positionY-200)));
+      socket.emit('message', ($scope.positionX-200)+','+(-($scope.positionY-200))+';');
     };
 
     /*
@@ -85,6 +85,8 @@ angular.module('spiderApp')
 
     $scope.moveJoystickOutside = function(event) {
       if ($scope.mouseIsDown == true) {
+        window.setTimeout(function() {
+
 
         ecartX=parseInt(getComputedStyle(joystick).left, 10);
         ecartY=parseInt(getComputedStyle(joystick).top, 10);
@@ -145,7 +147,14 @@ angular.module('spiderApp')
               "height": "100px"
             };
           }
-        socket.emit('message', ($scope.positionX-200)+','+(-($scope.positionY-200)));
+        //attendre un peu pour ne pas embrouiller la transmition du signal
+        /*$timeout(function() {
+          socket.emit('message', ($scope.positionX-200)+','+(-($scope.positionY-200))+';');
+        }, 0);*/
+        socket.emit('message', ($scope.positionX-200)+','+(-($scope.positionY-200))+';');
+        }, 10);//delay en millisecondes
+
+
       }
 
     };
